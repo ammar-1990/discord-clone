@@ -20,18 +20,20 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
+import { useRouter} from 'next/navigation'
   import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { useEffect, useState } from "react"
 import FileUpload from "../file-upload"
+import axios from 'axios'
 
 type Props = {}
 
 const InitialModal = (props: Props) => {
 
     const [isMounted,setIsMounted] = useState(false)
+    const router = useRouter()
 
     const formSchema = z.object({
         name: z.string().min(1,{message:'Name is required'}),
@@ -48,9 +50,15 @@ resolver:zodResolver(formSchema),
 
 const isLoading = form.formState.isSubmitting
 
-const onSubmit=(values: z.infer<typeof formSchema>) =>{
+const onSubmit=async(values: z.infer<typeof formSchema>) =>{
+try {
+  await axios.post('/api/servers',values)
+  form.reset()
+router.refresh()
+} catch (error) {
+  console.log(error)
+}
 
-    console.log(values)
   }
 
 useEffect(()=>{setIsMounted(true)},[])
@@ -68,14 +76,14 @@ if(!isMounted) return null
         </DialogDescription>
       </DialogHeader>
        <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
         <div className="px-6 flex items-center justify-center">
         <FormField
           control={form.control}
           name="imageUrl"
           render={({ field }) => (
-           <FormItem>
-            <FormControl>
+           <FormItem >
+            <FormControl >
            <FileUpload  endPoint="serverImage" onChange={field.onChange} value={field.value}/>
             </FormControl>
            </FormItem>
@@ -87,7 +95,7 @@ if(!isMounted) return null
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="px-5">
               <FormLabel className="text-xs text-zinc-500 font-bold dark:text-secondary/70">SERVER NAME</FormLabel>
               <FormControl>
                 <Input disabled={isLoading} placeholder="Enter server name" className="bg-zinc-300  placeholder:text-zinc-500 text-black outline-none focus-visible:ring-offset-0 focus-visible:ring-0 border-0" {...field} />
