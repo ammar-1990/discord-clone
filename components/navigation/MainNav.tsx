@@ -7,6 +7,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import ItemNav from './ItemNav'
 import { ModeToggle } from '../mode-toggle'
 import { UserButton } from '@clerk/nextjs'
+import { redirectToSignIn } from '@clerk/nextjs'
 
 type Props = {}
 
@@ -24,7 +25,7 @@ const MainNav = async(props: Props) => {
 
 
 
-if(!profile) return redirect('/')
+if(!profile) return redirectToSignIn()
 
   return (
     <div className='flex items-center flex-col space-y-4 w-full text-primary dark:bg-[#1E1F22] py-4'>

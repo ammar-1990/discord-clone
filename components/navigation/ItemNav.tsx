@@ -16,10 +16,10 @@ type Props = {
 const ItemNav = ({id,name,imageUrl}: Props) => {
     const router = useRouter()
     const params = useParams()
-    console.log(params.serverId===id)
+  
   return (
 <ActionTooltip label={name} side='right' align='center'>
-<button onClick={()=>router.push(`/servers/${id}`)} className='group relative flex items-center  '>
+<button onClick={()=>router.push(`/servers/${id}`)} className='group relative flex items-center mt-3  '>
     <div className={cn('absolute left-0   bg-primary w-[4px] rounded-r-full duration-150',
      params?.serverId === id ? "h-[36px]" : 'h-[8px]',
       params.serverId !== id && 'group-hover:h-[20px]')} />
