@@ -20,10 +20,10 @@ const ItemNav = ({id,name,imageUrl}: Props) => {
   return (
 <ActionTooltip label={name} side='right' align='center'>
 <button onClick={()=>router.push(`/servers/${id}`)} className='group relative flex items-center mt-3  '>
-    <div className={cn('absolute left-0   bg-primary w-[4px] rounded-r-full duration-150',
-     params?.serverId === id ? "h-[36px]" : 'h-[8px]',
-      params.serverId !== id && 'group-hover:h-[20px]')} />
-      <div className={cn('relative w-[48px] h-[48px] rounded-[24px] group-hover:rounded-[19px] mx-3 duration-150 ',params.serverId===id && 'bg-primary/10 text-primary rounded-[16px]')}>
+    <div className={cn('absolute left-0   bg-primary w-[3px] rounded-r-full duration-150',
+     params?.serverId === id ? "h-[36px]" : 'h-[3px] rounded-full',
+      params.serverId !== id && 'group-hover:h-[20px] rounded-r-full rounded-l-none')} />
+      <div className={cn('relative w-[38px] h-[38px] rounded-[24px] group-hover:rounded-[19px] mx-3 duration-150 ',params.serverId===id && 'bg-primary/10 text-primary rounded-[16px]')}>
         <Image fill src={imageUrl} alt='server-img' className='object-contain'/>
       </div>
 

@@ -2,6 +2,7 @@
 
 import CreateModal from "../modals/create-modal"
 import {useEffect , useState} from 'react'
+import InviteModal from "../modals/invite-modal"
 
 
 export const ModalProvider = ()=>{
@@ -14,6 +15,7 @@ export const ModalProvider = ()=>{
     return (
         <>
         <CreateModal />
+        <InviteModal />
         </>
  )
 }

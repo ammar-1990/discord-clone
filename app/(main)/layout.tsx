@@ -9,7 +9,7 @@ const layout = ({children}: Props) => {
   return (
     <div className='h-full  '>
         <div
-        className='hidden md:flex h-full w-[72px] fixed left-0'
+        className='hidden md:flex h-full w-[72px] fixed left-0 z-50'
         >
             <MainNav />
         </div>
