@@ -20,6 +20,9 @@ const MainNav = async(props: Props) => {
                     profileId:profile?.id
                 }
             }
+        },
+        orderBy:{
+            createdAt:'asc'
         }
     })
 

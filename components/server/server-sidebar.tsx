@@ -2,6 +2,7 @@ import { currentUser } from "@/lib/current-user"
 import { db } from "@/lib/db"
 import { ChanelType } from "@prisma/client"
 import {redirect} from 'next/navigation'
+import ServerHeader from "./server-header"
 
 
 type Props = {
@@ -45,7 +46,11 @@ const role = server.members.find((member)=>member.profileId === profile?.id)?.ro
 
 
   return (
-    <div>ServerSidebar</div>
+    <div
+    className="h-full flex flex-col text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]"
+    >
+        <ServerHeader role={role} server={server} />
+    </div>
   )
 }
 
