@@ -77,7 +77,7 @@ useEffect(()=>{
     form.setValue('name',data.server.name)
     form.setValue('imageUrl',data.server.imgUrl)
   }
-},[data.server,form])
+},[data,form])
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
