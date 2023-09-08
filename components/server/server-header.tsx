@@ -31,7 +31,7 @@ const {openModal} = useModal()
                 Invite People
                 <UserPlus  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}
-            {isAdmin && <DropdownMenuItem className=' px-3 py-2 cursor-pointer text-sm'>
+            {isAdmin && <DropdownMenuItem onClick={()=>{openModal('edit',{server})}} className=' px-3 py-2 cursor-pointer text-sm'>
                Server Settings
                 <Settings  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}

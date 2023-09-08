@@ -24,16 +24,20 @@ import { useRouter} from 'next/navigation'
   import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useEffect, useState } from "react"
+
 import FileUpload from "../file-upload"
 import axios from 'axios'
+import { useModal } from "@/app/hooks/useModal"
+import { useEffect } from "react"
 
 type Props = {}
 
-const InitialModal = (props: Props) => {
+const EditModal = (props: Props) => {
 
-    const [isMounted,setIsMounted] = useState(false)
+
     const router = useRouter()
+    const {isOpen,type,closeModal,data} = useModal()
+    const isModalOpen = isOpen && type==='edit'
 
     const formSchema = z.object({
         name: z.string().min(1,{message:'Name is required'}),
@@ -52,22 +56,31 @@ const isLoading = form.formState.isSubmitting
 
 const onSubmit=async(values: z.infer<typeof formSchema>) =>{
 try {
-  await axios.post('/api/servers',values)
+  await axios.patch(`/api/servers/${data.server?.id}`,values)
   form.reset()
+  closeModal()
 router.refresh()
-window.location.reload()
 } catch (error) {
   console.log(error)
 }
 
   }
 
-useEffect(()=>{setIsMounted(true)},[])
+const handleClose = ()=>{
+    form.reset()
+    closeModal()
+}
 
-if(!isMounted) return null
+
+useEffect(()=>{
+  if(data.server){
+    form.setValue('name',data.server.name)
+    form.setValue('imageUrl',data.server.imgUrl)
+  }
+},[data.server,form])
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
    
     <DialogContent className="bg-white text-zinc-500 p-0">
       <DialogHeader className="pt-5" >
@@ -106,7 +119,7 @@ if(!isMounted) return null
           )}
         />
      <DialogFooter className="px-4 py-4 bg-gray-100 mt-8">
-        <Button disabled={isLoading} variant={'primary'}>Create</Button>
+        <Button disabled={isLoading} variant={'primary'}>Save</Button>
     </DialogFooter>
       </form>
     </Form>
@@ -116,4 +129,4 @@ if(!isMounted) return null
   )}
 
 
-export default InitialModal
+export default EditModal
