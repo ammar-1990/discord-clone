@@ -8,6 +8,8 @@ import {
     DialogTitle,
   } from "@/components/ui/dialog"
 
+  import qs from 'query-string'
+
 
 
 
@@ -29,6 +31,10 @@ import {   DropdownMenu,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger, } from "../ui/dropdown-menu"
 import { useState } from "react"
+import { MemberRole } from "@prisma/client"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import ActionTooltip from "../action-tooltip"
 
 
 
@@ -65,6 +71,54 @@ const memberIcon={
     ADMIN:<ShieldAlert  className="w-4 h-4 text-rose-500"/>
 }
 
+const router = useRouter()
+const memberChange = async(memberId:string,role:MemberRole)=>{
+    try {
+        setLoadingId(memberId)
+const url = qs.stringifyUrl({
+    url:`/api/members/${memberId}`,
+    query:{
+        serverId:server?.id
+    }
+})
+
+const res = await axios.patch(url,{role})
+router.refresh()
+openModal('manage',{server:res.data})
+
+
+    } catch (error) {
+        console.log(error)
+    }finally{
+        setLoadingId('')
+    }
+}
+
+
+const onDelete = async (memberId:string)=>{
+
+    try {
+        setLoadingId(memberId)
+
+        const url = qs.stringifyUrl({
+            url:`/api/members/${memberId}`,
+            query:{
+                serverId:server.id
+            }
+        })
+
+const res = await axios.delete(url)
+router.refresh()
+openModal('manage',{server:res.data})
+
+    } catch (error) {
+        
+    }finally{
+        setLoadingId('')
+    }
+
+}
+
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
    
@@ -89,26 +143,29 @@ const memberIcon={
 
         </div>
         {server.profileId !==member.profileId && <div className="ml-auto">
-        <DropdownMenu>
-            <DropdownMenuTrigger>
-                <MoreVertical className="w-4 h-4 text-zinc-500 outline-none focus-visible:ring-0 focus-visible:ring-offset-0" />
+       {!loadingId && <DropdownMenu >
+            <DropdownMenuTrigger  title="options">
+       
+                    <MoreVertical className="w-4 h-4 text-zinc-500 outline-none focus-visible:ring-0 focus-visible:ring-offset-0" />
+                   
+                
             </DropdownMenuTrigger>
             <DropdownMenuContent side="left">
             <DropdownMenuSub >
-            <DropdownMenuSubTrigger >
+            <DropdownMenuSubTrigger className="cursor-pointer" >
             <ShieldQuestion className="w-4 h-4 mr-2" />
                 Role
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
             <DropdownMenuSubContent >
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>memberChange(member.id,'GUEST')} className="cursor-pointer">
                   <Shield className="mr-2 h-4 w-4" />
                   <span>GUEST</span>
                   {member.role==='GUEST' && <Check className="w-4 h-4 ml-auto" />}
                 </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>memberChange(member.id,'MODERATOR')} className="cursor-pointer">
                   <ShieldCheck className="mr-2 h-4 w-4" />
-                  <span>MODERATOR</span>
+                  <span className="pr-2">MODERATOR</span>
                   {member.role==='MODERATOR' && <Check className="w-4 h-4 ml-auto" />}
                 </DropdownMenuItem>
             </DropdownMenuSubContent>
@@ -116,14 +173,14 @@ const memberIcon={
               
             </DropdownMenuSub>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>onDelete(member.id)} className="cursor-pointer">
                 <Gavel className="w-4 h-4 mr-2" />
                  Kick
                  </DropdownMenuItem>
             </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu>}
             </div>}
-        {loadingId === member.profileId && <Loader2 className="animate-spin w-4 h-4 text-zinc-500 ml-auto" />}
+        {loadingId === member.id && <Loader2 className="animate-spin w-4 h-4 text-zinc-500 ml-auto" />}
         </div>)}
 
  </ScrollArea>
