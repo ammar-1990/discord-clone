@@ -35,7 +35,7 @@ const {openModal} = useModal()
                Server Settings
                 <Settings  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}
-            {isAdmin && <DropdownMenuItem className=' px-3 py-2 cursor-pointer text-sm'>
+            {isAdmin && <DropdownMenuItem onClick={()=>{openModal('manage',{server})}} className=' px-3 py-2 cursor-pointer text-sm'>
                Manage Members
                 <Users  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}

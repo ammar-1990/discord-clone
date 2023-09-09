@@ -4,6 +4,7 @@ import CreateModal from "../modals/create-modal"
 import {useEffect , useState} from 'react'
 import InviteModal from "../modals/invite-modal"
 import EditModal from "../modals/edit-modatl"
+import ManageModal from "../modals/manage-modal"
 
 
 export const ModalProvider = ()=>{
@@ -18,6 +19,7 @@ export const ModalProvider = ()=>{
         <CreateModal />
         <InviteModal />
         <EditModal />
+        <ManageModal />
         </>
  )
 }
