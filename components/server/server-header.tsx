@@ -39,17 +39,17 @@ const {openModal} = useModal()
                Manage Members
                 <Users  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}
-            {isModerater && <DropdownMenuItem className=' px-3 py-2 cursor-pointer text-sm'>
+            {isModerater && <DropdownMenuItem onClick={()=>openModal('channel',{server})} className=' px-3 py-2 cursor-pointer text-sm'>
                Create Channel
                 <PlusCircle  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}
             {isModerater && <DropdownMenuSeparator />}
 
-            {isAdmin && <DropdownMenuItem className='text-rose-500 px-3 py-2 cursor-pointer text-sm'>
+            {isAdmin && <DropdownMenuItem onClick={()=>openModal('delete',{server})} className='text-rose-500 px-3 py-2 cursor-pointer text-sm'>
                Delete Server
                 <TrashIcon  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}
-            {!isAdmin && <DropdownMenuItem className=' px-3 py-2 cursor-pointer text-sm'>
+            {!isAdmin && <DropdownMenuItem onClick={()=>openModal('leave',{server})} className=' px-3 py-2 cursor-pointer text-sm'>
               Leave Server
                 <LogOut  className='w-4 h-4 ml-auto'/>
                 </DropdownMenuItem>}

@@ -5,6 +5,9 @@ import {useEffect , useState} from 'react'
 import InviteModal from "../modals/invite-modal"
 import EditModal from "../modals/edit-modatl"
 import ManageModal from "../modals/manage-modal"
+import CreateChannel from "../modals/create-channel"
+import LeaveModal from "../modals/leave-modal"
+import DeleteModal from "../modals/delete-modal"
 
 
 export const ModalProvider = ()=>{
@@ -20,6 +23,9 @@ export const ModalProvider = ()=>{
         <InviteModal />
         <EditModal />
         <ManageModal />
+        <CreateChannel />
+        <LeaveModal />
+        <DeleteModal />
         </>
  )
 }

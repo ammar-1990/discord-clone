@@ -30,3 +30,28 @@ try {
     
 
 }
+
+
+export async function DELETE(req:Request,{params}:{params:{serverId:string}}){
+
+  
+try {
+
+    const profile = await currentUser()
+    if(!profile)return new NextResponse('Unauthorized',{status:401})
+    const server = await db.server.delete({
+        where:{
+            id:params.serverId,
+            profileId:profile.id
+        },
+    
+    })
+
+
+    return NextResponse.json(server)
+} catch (error) {
+    console.log(error)
+    return new NextResponse('[INTERNAL_ERROR_EDIT',{status:500})
+}
+
+}

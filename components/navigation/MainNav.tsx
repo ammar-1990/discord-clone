@@ -45,7 +45,7 @@ if(!profile) return redirectToSignIn()
         appearance={
             {
                 elements:{
-                    avatarBox:'h-[48px] w-[48px]'
+                    avatarBox:'h-[38px] w-[38px]'
                 }
             }
         } />
