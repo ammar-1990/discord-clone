@@ -65,6 +65,7 @@ resolver:zodResolver(formSchema),
 const isLoading = form.formState.isSubmitting
 
 const onSubmit=async(values: z.infer<typeof formSchema>) =>{
+  console.log(data.server)
 try {
     const url = qs.stringifyUrl({
         url:`/api/channels`,
