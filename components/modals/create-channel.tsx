@@ -37,6 +37,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { useEffect } from "react"
 
 type Props = {}
 
@@ -57,10 +58,12 @@ const CreateChannel = (props: Props) => {
 resolver:zodResolver(formSchema),
         defaultValues:{
             name:'',
-            type:ChanelType.TEXT
+            type:data.channelType ||  ChanelType.TEXT
        
         }
     })
+
+
 
 const isLoading = form.formState.isSubmitting
 
@@ -87,6 +90,16 @@ const handleClose = ()=>{
     form.reset()
     closeModal()
 }
+
+useEffect(()=>{
+  if(data.channelType){
+      form.setValue('type',data.channelType)
+  }
+  else{
+    form.setValue('type',ChanelType.TEXT)
+  }
+  
+  },[data.channelType,form])
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
    

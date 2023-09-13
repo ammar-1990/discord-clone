@@ -127,7 +127,7 @@ const roleIconMap = {
         </div>}
       { !!members?.length && <div className="mb-2">
             <ServerSection server={server} sectionType="members" channelType={ChanelType.VIDEO} role={role} label="Members" />
-        <div className="py-[2px]">  {members.map((member)=><ServerMember key={member.id}/>)}</div>
+        <div className="py-[2px]">  {members.map((member)=><ServerMember key={member.id} member={member} server={server}/>)}</div>
         </div>}
         </ScrollArea>
 
