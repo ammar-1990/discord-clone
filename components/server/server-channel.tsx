@@ -7,6 +7,7 @@ import { Edit, Hash, Lock, Mic, Trash, Video } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import ActionTooltip from '../action-tooltip'
+import { useModal } from '@/app/hooks/useModal'
 
 type Props = {
     channel:Channel,
@@ -15,6 +16,8 @@ type Props = {
 }
 
 const ServerChannel = ({channel,server,role}: Props) => {
+
+    const {openModal} = useModal()
 
     const iconMap = {
         [ChanelType.TEXT]:Hash ,
@@ -40,7 +43,7 @@ className={cn('group p-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zi
 
             </ActionTooltip>
             <ActionTooltip label='Delete'>
-                <Trash className='hidden group-hover:block w-4 h-4 text-zinc-500 hover-text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-200 transition ' />
+                <Trash onClick={()=>openModal('channel-delete',{server,channel})} className='hidden group-hover:block w-4 h-4 text-zinc-500 hover-text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-200 transition ' />
 
             </ActionTooltip>
 

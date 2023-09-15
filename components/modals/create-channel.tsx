@@ -99,7 +99,7 @@ useEffect(()=>{
     form.setValue('type',ChanelType.TEXT)
   }
   
-  },[data.channelType,form])
+  },[data,form])
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
    

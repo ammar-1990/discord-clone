@@ -31,7 +31,7 @@ const MainNav = async(props: Props) => {
 if(!profile) return redirectToSignIn()
 
   return (
-    <div className='flex items-center flex-col space-y-4 w-full text-primary dark:bg-[#1E1F22] py-4'> 
+    <div className='flex items-center flex-col space-y-4 w-full text-primary dark:bg-[#1E1F22] bg-[#E3E5E8] py-4'> 
     <ActionNav />
     <Separator
     className='h-[2px] bg-zinc-300 dark:bg-zinc-700 w-10 mx-auto rounded-md' />
