@@ -16,6 +16,8 @@ type Props = {
 }
 
 const EmojiPicker = ({onChange}: Props) => {
+
+    const {resolvedTheme} = useTheme()
   return (
 <Popover>
     <PopoverTrigger>
@@ -26,7 +28,11 @@ const EmojiPicker = ({onChange}: Props) => {
      sideOffset={40}
      className="bg-transparent shadow-none drop-shadow-none border-none mb-16"
      >
-<Picker />
+<Picker
+theme={resolvedTheme}
+data={data}
+onEmojiSelect={(emoji:any)=>{onChange(emoji.native)}}
+/>
     </PopoverContent>
 </Popover>
   )

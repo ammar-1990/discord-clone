@@ -15,6 +15,7 @@ import {
 
   FormField,
   FormItem,
+  FormMessage,
  
 } from "@/components/ui/form"
 
@@ -97,7 +98,9 @@ handleClose()
            <FormItem >
             <FormControl >
            <FileUpload  endPoint="messageFile" onChange={field.onChange} value={field.value}/>
+      
             </FormControl>
+            <FormMessage />
            </FormItem>
           )}
         />

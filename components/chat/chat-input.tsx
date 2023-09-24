@@ -16,6 +16,7 @@ import qs from 'query-string'
 import axios from "axios";
 import { useModal } from "@/app/hooks/useModal";
 import EmojiPicker from "../emoji-picker";
+import { useRouter } from "next/navigation";
 
 
 
@@ -40,7 +41,7 @@ const ChatInput = ({ apiUrl, query, name, type }: Props) => {
   });
 
   const isLoading = form.formState.isSubmitting;
-
+const router = useRouter()
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
  try {
       const url = qs.stringifyUrl({
@@ -48,6 +49,9 @@ const ChatInput = ({ apiUrl, query, name, type }: Props) => {
         query
       })
 await axios.post(url,values)
+
+form.reset()
+router.refresh()
 
  } catch (error) {
     console.log(error)
@@ -80,7 +84,7 @@ await axios.post(url,values)
                     {...field}
                   />
                   <div className="absolute top-7 right-8">
-                <EmojiPicker />
+                <EmojiPicker onChange={(emoji:string)=>field.onChange(`${field.value}${emoji}` )} />
                   </div>
                 </div>
               </FormControl>
