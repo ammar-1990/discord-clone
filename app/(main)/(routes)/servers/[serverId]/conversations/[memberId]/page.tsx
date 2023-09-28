@@ -1,4 +1,5 @@
 import ChatHeader from '@/components/chat/chat-header'
+import ChatMessages from '@/components/chat/chat-messages'
 import { currentUser } from '@/lib/current-user'
 import { db } from '@/lib/db'
 import { getOrCreateConversation } from '@/lib/find-conversation'
@@ -40,6 +41,7 @@ const otherMember = memberOne.profileId === profile.id ? memberTwo : memberOne
   return (
     <div className='bg-white dark:bg-[#313338] flex flex-col h-full'>
 <ChatHeader name={otherMember.profile.name} serverId={serverId} type='conversation' imageUrl={otherMember.profile.imgUrl}  />
+
 
     </div>
   )
