@@ -17,6 +17,7 @@ export default async function handler(
         try {
 
             const profile = await currentUserPages(req)
+            console.log(profile)
 
             const {content,fileUrl} = req.body
             const {serverId, channelId} = req.query
