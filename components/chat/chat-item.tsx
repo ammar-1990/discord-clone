@@ -13,6 +13,7 @@ import axios from "axios";
 import qs from "query-string";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams,useRouter } from "next/navigation";
 
 import {
   Form,
@@ -124,16 +125,24 @@ useEffect(()=>{
     return ()=>document.removeEventListener('keydown',handleKeyDown)
 },[])
 
+const params = useParams()
+const router = useRouter()
 
+const onMemberClick = ()=>{
+if(member.id === currentMember.id) return ;
+
+router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+
+}
 
   return (
     <div className="flex p-4 gap-x-4 group relative hover:bg-black/10 dark:hover-black/20">
-      <div className="cursor-pointer transition">
+      <div onClick={onMemberClick} className="cursor-pointer transition">
         <MemberAvatar src={member.profile.imgUrl} />
       </div>
       <div className="flex flex-col gap-y-1 relative flex-1 ">
         <div className="flex items-center gap-x-2">
-          <p className="font-semibold text-sm hover:underline cursor-pointer">
+          <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
             {member.profile.name}
           </p>
           <ActionTooltip label={member.role}>
@@ -224,17 +233,17 @@ useEffect(()=>{
         )}
       </div>
 
-      <div className="absolute group-hover:flex items-center -top-2 right-5 p-1 hidden gap-x-2 bg-white dark:bg-zinc-800 rounded-sm">
+    <div className={`absolute group-hover:flex items-center -top-2 right-5  p-1 hidden gap-x-2 bg-white dark:bg-zinc-800 rounded-sm`}>
         {canEditMessage && (
           <ActionTooltip label="Edit">
             <Edit onClick={()=>setIsEditing(true)} className="w-4 h-4 ml-auto cursor-pointer text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
           </ActionTooltip>
         )}
-        <ActionTooltip label="Delete">
+      {canDeleteMessage&&  <ActionTooltip label="Delete">
           <Trash onClick={()=>openModal('deleteMessage',{apiUrl:`${socketUrl}/${id}`,query:socketQuery})} className="w-4 h-4 ml-auto cursor-pointer text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
-        </ActionTooltip>
+        </ActionTooltip>}
       </div>
-    </div>
+    </div> 
   );
 };
 
