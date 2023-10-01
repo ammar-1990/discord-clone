@@ -1,6 +1,7 @@
 import ChatHeader from '@/components/chat/chat-header'
 import ChatInput from '@/components/chat/chat-input'
 import ChatMessages from '@/components/chat/chat-messages'
+import { MediaRoom } from '@/components/media-room'
 import { currentUser } from '@/lib/current-user'
 import { db } from '@/lib/db'
 import { getOrCreateConversation } from '@/lib/find-conversation'
@@ -10,10 +11,13 @@ import React from 'react'
 
 type Props = {
 params: { serverId:string,
-  memberId:string}
+  memberId:string},
+  searchParams:{
+    video?:boolean
+  }
 }
 
-const page = async ({params}: Props) => {
+const page = async ({params,searchParams}: Props) => {
 const {serverId,memberId} = params
 const profile = await currentUser()
 
@@ -43,6 +47,10 @@ const otherMember = memberOne.profileId === profile.id ? memberTwo : memberOne
     <div className='bg-white dark:bg-[#313338] flex flex-col h-screen'>
 <ChatHeader name={otherMember.profile.name} serverId={serverId} type='conversation' imageUrl={otherMember.profile.imgUrl}  />
 
+{searchParams.video && (<MediaRoom chatId={conversation.id} video={true} audio={true} />)}
+
+{!searchParams.video && (
+<>
 <ChatMessages
 member={currentMember}
 name={otherMember.profile.name}
@@ -67,6 +75,8 @@ query={{
 
 
 />
+</>)}
+
 
     </div>
   )
