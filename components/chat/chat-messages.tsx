@@ -8,6 +8,7 @@ import { Fragment, useRef, ElementRef } from "react";
 import { format } from "date-fns";
 import ChatItem from "./chat-item";
 import { useChatSocket } from "@/app/hooks/use-chat-socket";
+import { useChatScroll } from "@/app/hooks/use-chat-scroll";
 
 type Props = {
   name: string;
@@ -43,6 +44,7 @@ const ChatMessages = ({
     useChatQuery({ queryKey, apiUrl, paramKey, paramValue });
 
   useChatSocket({ queryKey, addKey, updateKey });
+  useChatScroll({chatRef,bottomRef,shouldLoad:!isFetchingNextPage && !!hasNextPage,loadMore:fetchNextPage,count:data?.pages[0].items?.length ?? 0})
 
   const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
@@ -112,6 +114,7 @@ const ChatMessages = ({
       </div>
       <div ref={bottomRef} />
     </div>
+    
   );
 };
 
