@@ -17,48 +17,57 @@ export default async function handler(
         try {
 
             const profile = await currentUserPages(req)
+            console.log(profile)
 
             const {content,fileUrl} = req.body
-            const {serverId, channelId} = req.query
+            const {conversationId} = req.query
 
             if(!profile) return res.status(401).json({error:'Unauthorized'})
-            if(!serverId) return res.status(400).json({error:'server ID is Missing'})
-            if(!channelId) return res.status(400).json({error:'channel ID is Missing'})
+            if(!conversationId) return res.status(400).json({error:'conversation ID is Missing'})
+          
             if(!content) return res.status(400).json({error:'Content is Missing'})
 
-            const server = await db.server.findFirst({
-                where:{
-                    id:serverId as string,
-                    members:{
-                        some:{
+           const conversation = await db.conversation.findFirst({
+            where:{
+                id:conversationId as string,
+                OR:[
+                    {
+                        memberOne:{
                             profileId:profile.id
                         }
                     },
-                    
+                    {
+                        memberTwo:{
+                            profileId:profile.id
+                        }
+                    }
+                ]
+            },
+            include:{
+                memberOne:{
+                    include:{
+                        profile:true
+                    }
                 },
-                include:{members:true}
-            })
-
-            if(!server) return res.status(404).json({message:'Server not found'})
-
-            const channel = await db.channel.findFirst({
-                where:{
-                    serverId:serverId as string,
-                    id:channelId as string
+                memberTwo:{
+                    include:{
+                        profile:true
+                    }
                 }
-            })
+            }
+           })
 
-            if(!channel) return res.status(404).json({message:'Channel not found'})
+           if(!conversation) return res.status(404).json({message:'Conversation not found'})
 
-            const member = server.members.find((member)=>member.profileId === profile.id)
+            const member = conversation.memberOne.profileId === profile.id ? conversation.memberOne : conversation.memberTwo
 
             if(!member) return res.status(404).json({message:'Member not found'})
 
-            const message = await db.message.create({
+            const message = await db.directMessage.create({
                 data:{
                     content,
                     memberId:member.id,
-                    channelId:channel.id as string,
+                    conversationId:conversationId as string,
                     fileUrl
                 },
                 include:{
@@ -70,7 +79,7 @@ export default async function handler(
                 }
             })
 
-            const channelKey = `chat:${channelId}:messages`
+            const channelKey = `chat:${conversationId}:messages`
 
             res?.socket?.server?.io.emit(channelKey,message)
 

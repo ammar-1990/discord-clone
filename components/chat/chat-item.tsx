@@ -142,7 +142,7 @@ router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
       </div>
       <div className="flex flex-col gap-y-1 relative flex-1 ">
         <div className="flex items-center gap-x-2">
-          <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
+          <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer capitalize">
             {member.profile.name}
           </p>
           <ActionTooltip label={member.role}>
