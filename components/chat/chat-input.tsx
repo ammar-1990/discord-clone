@@ -55,6 +55,8 @@ router.refresh()
 
  } catch (error) {
     console.log(error)
+    form.reset()
+router.refresh()
  }
   };
 
