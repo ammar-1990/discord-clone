@@ -136,7 +136,7 @@ if(req.method==='PATCH'){
 
 const updateKey = `chat:${conversation.id}:messages:update`
 
-res.socket.server.io.emit(updateKey,directMessage)
+// res.socket.server.io.emit(updateKey,directMessage)
 
 return res.status(200).json(directMessage)
 
