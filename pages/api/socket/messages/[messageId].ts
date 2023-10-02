@@ -135,7 +135,7 @@ if(req.method==='PATCH'){
 
 const updateKey = `chat:${channelId}:messages:update`
 
-// res.socket.server.io.emit(updateKey,message)
+res.socket.server.io.emit(updateKey,message)
 
 return res.status(200).json(message)
 
